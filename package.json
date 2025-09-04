@@ -1,15 +1,24 @@
 {
   "name": "abrigo-animais",
   "version": "1.0.0",
-  "description": "",
+  "description": "Solução do desafio técnico para o processo seletivo de estágio da DB, focado em um sistema de adoção para um abrigo de animais.",
   "type": "module",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Diogo Nogueira de Sousa",
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.6.2"
-  }
+  },
+  "main": "src/abrigo-animais.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DIOGO03-NS/desafio-DIOGO03-NS-2025.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DIOGO03-NS/desafio-DIOGO03-NS-2025/issues"
+  },
+  "homepage": "https://github.com/DIOGO03-NS/desafio-DIOGO03-NS-2025#readme"
 }
