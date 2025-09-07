@@ -109,6 +109,8 @@ class AbrigoAnimais {
       }
     }
 
+    registroAnimais.sort();
+
     return registroAnimais;
   }
 }
