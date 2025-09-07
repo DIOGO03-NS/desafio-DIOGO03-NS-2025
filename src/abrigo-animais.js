@@ -55,6 +55,7 @@ class AbrigoAnimais {
 
     const brinquedosP1 = this.separarElementos(brinquedosPessoa1);
     const brinquedosP2 = this.separarElementos(brinquedosPessoa2);
+    const ordemAnimaisArray = this.separarElementos(ordemAnimais);
 
     let pessoa1 = {
       brinquedos: brinquedosP1,
@@ -66,52 +67,45 @@ class AbrigoAnimais {
       quantidadeAdotados: 0
     };
 
-    if (this.temDuplicado(ordemAnimais)) {
-      registroAnimais.push(`erro: - Animal invalido`);
-      return registroAnimais;
+    if (this.temDuplicado(ordemAnimaisArray)) {
+      return { erro: 'Animal inválido' };
     }
 
     if (this.temDuplicado(brinquedosP1) || this.temDuplicado(brinquedosP2)) {
-      registroAnimais.push(`erro: - Brinquedo inválido`);
-      return registroAnimais;
+      return { erro: 'Brinquedo inválido' };
     }
 
-
-    for (const nomeAnimal of ordemAnimais) {
-      if (!this.animais.hasOwnProperty(nomeAnimal)) {                                             // Animal nao existe
-        registroAnimais.push(`erro: - Animal inválido`);
-        return registroAnimais;
+    for (const nomeAnimal of ordemAnimaisArray) {
+      if (!this.animais.hasOwnProperty(nomeAnimal)) {
+        return { erro: 'Animal inválido' };
       }
-      if (!this.pessoaApta(pessoa1.brinquedos, nomeAnimal) || pessoa1.quantidadeAdotados == 3){   // Pessoa 1 não apta ou ja adotou 3
-        if (!this.pessoaApta(pessoa2.brinquedos, nomeAnimal) || pessoa2.quantidadeAdotados == 3){ // Pessoa 2 não apta ou ja adotou 3
-          // adiciona no registro 
-          registroAnimais.push(`${nomeAnimal} - ABRIGO`);                                         // Nenhuma pessoa apta ou ambas ja adotaram 3 ou não possuem brinquedos
+
+      if (!this.pessoaApta(pessoa1.brinquedos, nomeAnimal) || pessoa1.quantidadeAdotados == 3){
+        if (!this.pessoaApta(pessoa2.brinquedos, nomeAnimal) || pessoa2.quantidadeAdotados == 3){
+          registroAnimais.push(`${nomeAnimal} - abrigo`);
         } else {            
-          // checa se é o Loco
-          if (nomeAnimal === 'Loco' && pessoa2.quantidadeAdotados == 0) {                   // Pessoa 2 nao pode adotar o Loco se for o primeiro animal
-            registroAnimais.push(`${nomeAnimal} - ABRIGO`);
+          if (nomeAnimal === 'Loco' && pessoa2.quantidadeAdotados == 0) {
+            registroAnimais.push(`${nomeAnimal} - abrigo`);
             continue;
           }
           pessoa2.quantidadeAdotados += 1;
-          registroAnimais.push(`${nomeAnimal} - PESSOA 2`);
+          registroAnimais.push(`${nomeAnimal} - pessoa 2`);
         }
       } else if (this.pessoaApta(pessoa2.brinquedos, nomeAnimal) && pessoa2.quantidadeAdotados < 3){    
-        registroAnimais.push(`${nomeAnimal} - ABRIGO`);                                            // Ambas as pessoas aptas, mas nenhuma pode adotar;
+        registroAnimais.push(`${nomeAnimal} - abrigo`);
       } else if (pessoa1.quantidadeAdotados < 3) {  
-        // checa se é o Loco
-        if (nomeAnimal === 'Loco' && pessoa1.quantidadeAdotados == 0) {                   // Pessoa 1 nao pode adotar o Loco se for o primeiro animal
-          registroAnimais.push(`${nomeAnimal} - ABRIGO`);
+        if (nomeAnimal === 'Loco' && pessoa1.quantidadeAdotados == 0) {
+          registroAnimais.push(`${nomeAnimal} - abrigo`);
           continue;
         }
-        // Pessoa 1 apta e pode adotar
         pessoa1.quantidadeAdotados += 1;
-        registroAnimais.push(`${nomeAnimal} - PESSOA 1`);
+        registroAnimais.push(`${nomeAnimal} - pessoa 1`);
       }
     }
 
     registroAnimais.sort();
 
-    return registroAnimais;
+    return { lista: registroAnimais };
   }
 }
 
