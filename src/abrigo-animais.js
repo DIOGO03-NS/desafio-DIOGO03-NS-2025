@@ -64,7 +64,7 @@ class AbrigoAnimais {
           registroAnimais.push(`${nomeAnimal} - PESSOA 2`);
         }
       } else if (this.pessoaApta(pessoa2.brinquedos, nomeAnimal) && pessoa2.quantidadeAdotados < 3){
-        continue;
+        registroAnimais.push(`${nomeAnimal} - ABRIGO`); // Ambas as pessoas aptas, mas nenhuma pode adotar;
       } else if (pessoa1.quantidadeAdotados < 3) {
         pessoa1.quantidadeAdotados += 1;
         registroAnimais.push(`${nomeAnimal} - PESSOA 1`);
