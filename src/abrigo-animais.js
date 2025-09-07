@@ -114,36 +114,3 @@ class AbrigoAnimais {
 }
 
 export { AbrigoAnimais as AbrigoAnimais };
-
-function main() {
-  console.log("************ INICIANDO TESTE DO ABRIGO ************\n");
-
-  // 1. Cria uma instância da classe
-  const abrigo = new AbrigoAnimais();
-
-  // 2. Define os dados de entrada para o teste
-  const brinquedosPessoa1 = "RATO, BOLA"; // Apta para Rex e Zero
-  const brinquedosPessoa2 = "CAIXA, BOLA, LASER, BOLA"; // Apta para Mimi
-  const ordemDeAnimais = ["Rex", "Mimi", "Fofo", "Zero", "Bola", "Pikachu"];
-
-  console.log(`Pessoa 1 tem os brinquedos: [${brinquedosPessoa1}]`);
-  console.log(`Pessoa 2 tem os brinquedos: [${brinquedosPessoa2}]`);
-  console.log(`Ordem de avaliação dos animais: [${ordemDeAnimais.join(', ')}]\n`);
-  
-  // 3. Executa o método principal
-  const resultado = abrigo.encontraPessoas(
-    brinquedosPessoa1,
-    brinquedosPessoa2,
-    ordemDeAnimais
-  );
-
-  // 4. Exibe o resultado formatado
-  console.log("------ RESULTADO DO PROCESSO DE ADOÇÃO ------");
-  resultado.forEach(log => {
-    console.log(`- ${log}`);
-  });
-  console.log("-------------------------------------------");
-}
-
-// Executa a função principal de teste
-main();
