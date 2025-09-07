@@ -4,7 +4,7 @@
   "description": "Solução do desafio técnico para o processo seletivo de estágio da DB, focado em um sistema de adoção para um abrigo de animais.",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "Diogo Nogueira de Sousa",
