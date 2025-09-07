@@ -28,6 +28,13 @@ class AbrigoAnimais {
 
     if (brinquedosAnimal.length !== brinquedosPessoa.length) return false;
 
+    if (this.animais[animal].tipo === 'jabuti') {
+      const temSkate = brinquedosPessoa.includes('SKATE');
+      const temRato = brinquedosPessoa.includes('RATO');
+      
+      return temSkate && temRato;
+    }
+
     for (let i = 0; i < brinquedos.length; i++){
       if(brinquedosAnimal[i] !== brinquedosPessoa[i]) return false;
     }
@@ -52,20 +59,31 @@ class AbrigoAnimais {
     };
 
     for (const nomeAnimal of ordemAnimais) {
-      if (!this.animais.hasOwnProperty(nomeAnimal)) {
+      if (!this.animais.hasOwnProperty(nomeAnimal)) {                                             // Animal nao existe
         continue; // Tratar animais nao encontrados :TODO:
       }
-      if (!this.pessoaApta(pessoa1.brinquedos, nomeAnimal) || pessoa1.quantidadeAdotados == 3){
-        if (!this.pessoaApta(pessoa2.brinquedos, nomeAnimal) || pessoa2.quantidadeAdotados == 3){
+      if (!this.pessoaApta(pessoa1.brinquedos, nomeAnimal) || pessoa1.quantidadeAdotados == 3){   // Pessoa 1 não apta ou ja adotou 3
+        if (!this.pessoaApta(pessoa2.brinquedos, nomeAnimal) || pessoa2.quantidadeAdotados == 3){ // Pessoa 2 não apta ou ja adotou 3
           // adiciona no registro 
-          registroAnimais.push(`${nomeAnimal} - ABRIGO`); // Nenhuma pessoa apta ou ambas ja adotaram 3 ou não possuem brinquedos
-        } else {
+          registroAnimais.push(`${nomeAnimal} - ABRIGO`);                                         // Nenhuma pessoa apta ou ambas ja adotaram 3 ou não possuem brinquedos
+        } else {            
+          // checa se é o Loco
+          if (nomeAnimal === 'Loco' && pessoa2.quantidadeAdotados == 0) {                   // Pessoa 2 nao pode adotar o Loco se for o primeiro animal
+            registroAnimais.push(`${nomeAnimal} - ABRIGO`);
+            continue;
+          }
           pessoa2.quantidadeAdotados += 1;
           registroAnimais.push(`${nomeAnimal} - PESSOA 2`);
         }
-      } else if (this.pessoaApta(pessoa2.brinquedos, nomeAnimal) && pessoa2.quantidadeAdotados < 3){
-        registroAnimais.push(`${nomeAnimal} - ABRIGO`); // Ambas as pessoas aptas, mas nenhuma pode adotar;
-      } else if (pessoa1.quantidadeAdotados < 3) {
+      } else if (this.pessoaApta(pessoa2.brinquedos, nomeAnimal) && pessoa2.quantidadeAdotados < 3){    
+        registroAnimais.push(`${nomeAnimal} - ABRIGO`);                                            // Ambas as pessoas aptas, mas nenhuma pode adotar;
+      } else if (pessoa1.quantidadeAdotados < 3) {  
+        // checa se é o Loco
+        if (nomeAnimal === 'Loco' && pessoa1.quantidadeAdotados == 0) {                   // Pessoa 1 nao pode adotar o Loco se for o primeiro animal
+          registroAnimais.push(`${nomeAnimal} - ABRIGO`);
+          continue;
+        }
+        // Pessoa 1 apta e pode adotar
         pessoa1.quantidadeAdotados += 1;
         registroAnimais.push(`${nomeAnimal} - PESSOA 1`);
       }
