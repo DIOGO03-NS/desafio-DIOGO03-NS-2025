@@ -30,6 +30,71 @@ describe('Abrigo de Animais', () => {
   });
 
   // ... outros testes ...
+  //funções isoladas
+  test('Deve separar elementos corretamente a partir de um Set', () => {
+    const abrigo = new AbrigoAnimais();
+    const brinquedosEmSet = new Set(['BOLA ', ' RATO', 'LASER']);
+    const resultado = abrigo.separarElementos(brinquedosEmSet);
+    expect(resultado).toEqual(['BOLA', 'RATO', 'LASER']);
+  });
+
+  test('Deve retornar um array vazio se o tipo de entrada de separarElementos for inválido', () => {
+    const abrigo = new AbrigoAnimais();
+    
+    const resultadoComNull = abrigo.separarElementos(null);
+    const resultadoComUndefined = abrigo.separarElementos(undefined);
+    const resultadoComNumero = abrigo.separarElementos(123);
+    const resultadoComObjeto = abrigo.separarElementos({ a: 1 });
+
+    expect(resultadoComNull).toEqual([]);
+    expect(resultadoComUndefined).toEqual([]);
+    expect(resultadoComNumero).toEqual([]);
+    expect(resultadoComObjeto).toEqual([]);
+  });
+
+  // testar se te, amimais duplicados
+  test('Deve retornar erro para animais duplicados na lista', () => {
+    const resultado = new AbrigoAnimais().encontraPessoas(
+      'BOLA, RATO', 
+      'LASER',
+      'Rex, Fofo, Rex'
+    );
+    expect(resultado).toEqual({ erro: 'Animal inválido' });
+  });
+
+  // regra de companhia para Loco
+  test('Deve enviar Loco para o abrigo se a pessoa 2 for apta mas não tiver adotado outros animais', () => {
+    const brinquedosPessoa1 = '';
+    const brinquedosPessoa2 = 'SKATE, RATO';
+    const ordemAnimais = 'Loco, Rex';
+
+    const resultado = new AbrigoAnimais().encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais);
+    expect(resultado.lista).toContain('Loco - abrigo');
+  });
+
+  // regra de companhia para Loco para Pessoa 1
+  test('Deve enviar Loco para o abrigo se a pessoa 1 for apta mas não tiver adotado outros animais', () => {
+    const brinquedosPessoa1 = 'SKATE, RATO';
+    const brinquedosPessoa2 = '';
+    const ordemAnimais = 'Loco';
+
+    const resultado = new AbrigoAnimais().encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais);
+
+    expect(resultado.lista).toContain('Loco - abrigo');
+  });
+
+  // regra de adoção de gatos 
+  test('Deve registrar que a pessoa 1 adotou um gato para bloquear adoções futuras de gatos', () => {
+    const p1Brinquedos = 'BOLA, LASER'; 
+    const p2Brinquedos = 'RATO';
+    const ordem = 'Mimi';
+
+    const resultado = new AbrigoAnimais().encontraPessoas(p1Brinquedos, p2Brinquedos, ordem);
+    
+    expect(resultado.lista).toContain('Mimi - pessoa 1');
+    expect(resultado.erro).toBeFalsy();
+  });
+
   test('Deve rejeitar brinquedo duplicado', () => {
     const resultado = new AbrigoAnimais().encontraPessoas('BOLA,BOLA',
       'BOLA,NOVELO,RATO,LASER', 'Mimi,Fofo,Rex,Bola');
