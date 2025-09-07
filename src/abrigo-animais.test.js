@@ -29,8 +29,6 @@ describe('Abrigo de Animais', () => {
       expect(resultado.erro).toBeFalsy();
   });
 
-  // ... outros testes ...
-  //funções isoladas
   test('Deve separar elementos corretamente a partir de um Set', () => {
     const abrigo = new AbrigoAnimais();
     const brinquedosEmSet = new Set(['BOLA ', ' RATO', 'LASER']);
@@ -52,7 +50,6 @@ describe('Abrigo de Animais', () => {
     expect(resultadoComObjeto).toEqual([]);
   });
 
-  // testar se te, amimais duplicados
   test('Deve retornar erro para animais duplicados na lista', () => {
     const resultado = new AbrigoAnimais().encontraPessoas(
       'BOLA, RATO', 
@@ -62,7 +59,6 @@ describe('Abrigo de Animais', () => {
     expect(resultado).toEqual({ erro: 'Animal inválido' });
   });
 
-  // regra de companhia para Loco
   test('Deve enviar Loco para o abrigo se a pessoa 2 for apta mas não tiver adotado outros animais', () => {
     const brinquedosPessoa1 = '';
     const brinquedosPessoa2 = 'SKATE, RATO';
@@ -72,7 +68,6 @@ describe('Abrigo de Animais', () => {
     expect(resultado.lista).toContain('Loco - abrigo');
   });
 
-  // regra de companhia para Loco para Pessoa 1
   test('Deve enviar Loco para o abrigo se a pessoa 1 for apta mas não tiver adotado outros animais', () => {
     const brinquedosPessoa1 = 'SKATE, RATO';
     const brinquedosPessoa2 = '';
@@ -83,7 +78,6 @@ describe('Abrigo de Animais', () => {
     expect(resultado.lista).toContain('Loco - abrigo');
   });
 
-  // regra de adoção de gatos 
   test('Deve registrar que a pessoa 1 adotou um gato para bloquear adoções futuras de gatos', () => {
     const p1Brinquedos = 'BOLA, LASER'; 
     const p2Brinquedos = 'RATO';
