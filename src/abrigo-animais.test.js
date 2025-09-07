@@ -28,4 +28,13 @@ describe('Abrigo de Animais', () => {
       expect(resultado.lista.length).toBe(4);
       expect(resultado.erro).toBeFalsy();
   });
+
+  // ... outros testes ...
+  test('Deve rejeitar brinquedo duplicado', () => {
+    const resultado = new AbrigoAnimais().encontraPessoas('BOLA,BOLA',
+      'BOLA,NOVELO,RATO,LASER', 'Mimi,Fofo,Rex,Bola');
+
+      expect(resultado.erro).toBe('Brinquedo inválido');
+      expect(resultado.lista).toBeFalsy();
+  });
 });
