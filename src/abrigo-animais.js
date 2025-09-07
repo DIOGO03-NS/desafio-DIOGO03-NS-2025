@@ -46,6 +46,9 @@ class AbrigoAnimais {
     return false;
   }
 
+  temDuplicado(array) {
+    return new Set(array).size !== array.length;
+  }
 
   encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
     let registroAnimais = [];
@@ -63,9 +66,21 @@ class AbrigoAnimais {
       quantidadeAdotados: 0
     };
 
+    if (this.temDuplicado(ordemAnimais)) {
+      registroAnimais.push(`erro: - Animal invalido`);
+      return registroAnimais;
+    }
+
+    if (this.temDuplicado(brinquedosP1) || this.temDuplicado(brinquedosP2)) {
+      registroAnimais.push(`erro: - Brinquedo inválido`);
+      return registroAnimais;
+    }
+
+
     for (const nomeAnimal of ordemAnimais) {
       if (!this.animais.hasOwnProperty(nomeAnimal)) {                                             // Animal nao existe
-        continue; // Tratar animais nao encontrados :TODO:
+        registroAnimais.push(`erro: - Animal inválido`);
+        return registroAnimais;
       }
       if (!this.pessoaApta(pessoa1.brinquedos, nomeAnimal) || pessoa1.quantidadeAdotados == 3){   // Pessoa 1 não apta ou ja adotou 3
         if (!this.pessoaApta(pessoa2.brinquedos, nomeAnimal) || pessoa2.quantidadeAdotados == 3){ // Pessoa 2 não apta ou ja adotou 3
