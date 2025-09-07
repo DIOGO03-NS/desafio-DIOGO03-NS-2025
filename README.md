@@ -1,118 +1,85 @@
-# ABRIGO DE ANIMAIS
+# Desafio Abrigo de Animais | Solução por Diogo Nogueira de Sousa
+![Linguagem](https://img.shields.io/badge/linguagem-JavaScript-yellow.svg)
+![Framework](https://img.shields.io/badge/testes-Jest-red.svg)
+![Cobertura](https://img.shields.io/badge/cobertura%20de%20testes-98%2B%25-brightgreen.svg)
 
-## COMO BAIXAR O CÓDIGO E SUBMETER MINHA SOLUÇÃO?
-Para completar a etapa do desafio você terá que baixar a estrutura do código aqui na Azure, resolver o desafio usando Javascript e entregá-lo no repositório no seu github.
+## 1. Visão Geral do Projeto
 
-### BAIXANDO A ESTRUTURA
-Para baixar a estrutura no formato zip, basta clicar neste [link](https://dev.azure.com/db-tecnologia/99dbf7ce-dadd-40d3-b827-e1648cb6a262/_apis/git/repositories/77bd95bc-00f0-4e15-9ea0-ae3d7f84428a/items?path=/&versionDescriptor%5BversionOptions%5D=0&versionDescriptor%5BversionType%5D=0&versionDescriptor%5Bversion%5D=main&resolveLfs=true&%24format=zip&api-version=5.0&download=true).
+Este repositório contém a solução completa para o desafio técnico do processo seletivo da DB. O projeto implementa um sistema de gerenciamento de adoções para um abrigo de animais, aplicando um conjunto de regras de negócio específicas e garantindo a robustez da solução através de uma suíte de testes unitários completa.
 
-### ENTREGANDO O DESAFIO
-Após resolver o desafio e validá-lo com os testes (mais detalhes nos tópicos abaixo), você terá que criar um repositório **público** no [Github](https://github.com/) com o **nome** de `desafio-seuUsername-2025` (substitua "seuUsername" pelo seu usuário do GitHub) e colocar o código na **branch** `main`.
+## 2. Decisões Técnicas e Melhorias
 
-Se você ainda não teve contato com essa ferramenta, não tem problema. Separamos um material para lhe ajudar nessa etapa: [Como usar Git e Github na prática](https://www.youtube.com/watch?v=UBAX-13g8OM).
+Além de cumprir os requisitos funcionais, o código foi estruturado utilizando boas práticas de engenharia de software para garantir clareza, manutenibilidade e escalabilidade.
 
-## O DESAFIO
-Olá! Você foi contratado para ajudar na organização de um abrigo de animais.
-Sua missão será encontrar pessoas aptas a levar os animais para casa.
+-   **Arquitetura Orientada a Objetos**: A entidade `Animal` foi abstraída em sua própria classe (`src/animal.js`), transformando um simples objeto de dados em uma estrutura mais semântica e reutilizável.
+-   **Separação de Responsabilidades (SoC)**: A lógica de negócio (`AbrigoAnimais`), a definição da estrutura de dados (`Animal`) e a fonte de dados (`animais-data.js`) foram desacopladas em arquivos distintos. Essa separação torna o código mais fácil de entender e modificar. Por exemplo, para adicionar novos animais, basta editar o arquivo de dados, sem qualquer risco para a lógica da aplicação.
+-   **Desenvolvimento Guiado por Testes (TDD)**: Utilizando o framework Jest, foi criada uma suíte de testes abrangente que valida todas as regras de negócio e casos de exceção. O desenvolvimento foi focado em garantir a cobertura de todas as linhas e branches de código, resultando em uma aplicação confiável e com comportamento previsível.
 
-### REGRAS PARA REUNIR PESSOA COM ANIMAIS
+## 3. Regras de Negócio Implementadas
 
-1) O animal vai para a pessoa que mostrar todos seus brinquedos favoritos na ordem desejada
-2) Uma pessoa pode intercalar brinquedos que o animal queira ou não, desde que estejam na ordem desejada
-3) Gatos não dividem seus brinquedos
-4) Se ambas as pessoas tiverem condições de adoção, ninguém fica com o animal (tadinho)
-5) Uma pessoa não pode levar mais de três animais para casa
-6) Loco não se importa com a ordem dos seus brinquedos desde que tenha outro animal como companhia
+O sistema atende a todas as regras de negócio especificadas no desafio:
 
-### ANIMAIS
+-   ✅ Adoção baseada na ordem correta de brinquedos favoritos.
+-   ✅ Pessoas podem ter brinquedos a mais, desde que a ordem dos favoritos seja mantida.
+-   ✅ Gatos não compartilham brinquedos (uma pessoa só pode adotar um gato).
+-   ✅ Em caso de empate (ambas as pessoas aptas), o animal permanece no abrigo.
+-   ✅ Limite de no máximo três animais por pessoa.
+-   ✅ O jabuti "Loco" só pode ser adotado por alguém que já tenha outro animal.
+-   ✅ Validação de entradas para rejeitar animais ou brinquedos duplicados/inválidos.
 
-  |           |           |                    |
-  |-----------|-----------|--------------------|
-  | Rex       | cão       | RATO, BOLA         |
-  | Mimi      | gato      | BOLA, LASER        |
-  | Fofo      | gato      | BOLA, RATO, LASER  |
-  | Zero      | gato      | RATO, BOLA         |
-  | Bola      | cão       | CAIXA, NOVELO      |
-  | Bebe      | cão       | LASER, RATO, BOLA  |
-  | Loco      | jabuti    | SKATE, RATO        |
+## 4. Estrutura de Arquivos
 
-### ENTRADAS E SAÍDAS
+A solução foi organizada na seguinte estrutura de pastas e arquivos:
 
-1) O programa deve receber três parâmetros de texto: os brinquedos da primeira pessoa, os da segunda pessoa e a ordem em que os animais deve ser considerados
-2) Cada um desses parâmetros deve conter os itens separados por vírgula
-3) O programa deve retornar uma estrutura contendo a lista em ordem alfabética dos animais e com quem ficaram ou a mensagem de erro, se houver
-4) O formato de saída deve ser "nome animal - pessoa número" ou "nome animal - abrigo"
-5) Caso animal seja inválido ou duplicado, apresentar erro "Animal inválido"
-6) Caso brinquedo seja inválido ou duplicado, apresentar erro "Brinquedo inválido"
-
-### EXEMPLOS
-
-Entrada para um caso válido
-```js
-'RATO,BOLA','RATO,NOVELO', 'Rex,Fofo'
-```
-Saída
-```js
-{
-  lista: ['Fofo - abrigo', 'Rex - pessoa 1']
-}
 ```
 
-Entrada para um caso inválido
-```js
-'CAIXA,RATO','RATO,BOLA', 'Lulu'
-```
-Saída
-```js
-{
-  erro: 'Animal inválido'
-}
-```
+.
+├── src/
+│   ├── animal.js              \# Classe que modela a estrutura de um animal.
+│   ├── animais-data.js        \# "Banco de dados" com a lista de animais.
+│   ├── abrigo-animais.js      \# Classe principal com a lógica de adoção.
+│   └── abrigo-animais.test.js \# Testes unitários com Jest.
+├── .gitignore
+├── jest.config.js
+├── package.json
+└── README.md
 
-### O CÓDIGO
-Você está recebendo uma estrutura básica para desenvolver a lógica do desafio. O arquivo principal está localizado dentro da pasta `src` e se chama `abrigo-animais.js`. Você pode desenvolver a sua lógica criando outros arquivos, métodos e até mesmo outras classes, porém o resultado deve poder ser obtido através do método `encontraPessoas`.
+````
 
-> **ALERTA**:
-> É importante que essa estrutura básica não seja alterada, pois as etapas automáticas da nossa validação dependem disso. Conseguir executar os passos descritos mais adiante na seção `VALIDANDO A SOLUÇÃO` também ajudará você a verificar que seu código segue a estrutura definida.
+## 5. Como Executar
 
-Exemplo de chamada
-```js
-  new AbrigoAnimais().encontraPessoas(
-      'RATO,BOLA', 'RATO,NOVELO', 'Rex,Fofo');
-```
+**Pré-requisitos:**
+-   Node.js
 
-### INSTALANDO E RODANDO NA SUA MÁQUINA
-1. Instalar o [Node](https://nodejs.org/en/)
-2. Instalar dependencias do projeto com o seguinte comando:
+**1. Clonar e Instalar as Dependências:**
+No seu terminal, navegue até a pasta desejada e execute os comandos:
+
 ```bash
+ # Clone o repositório
+git clone https://github.com/DIOGO03-NS/desafio-DIOGO03-NS-2025.git
+
+# Entre na pasta do projeto
+cd desafio-DIOGO03-NS-2025
+
+# Instale as dependências
 npm install
 ```
 
-### VALIDANDO A SOLUÇÃO
-Junto com a estrutura básica você está recebendo alguns cenários de testes no arquivo `abrigo-animais.test.js` para auxiliar na validação da sua solução. Recomendamos que você crie mais casos de teste para aumentar a confiabilidade da sua solução.
-Para testar sua solução com os cenários existentes ou novos, rode o seguinte comando:
+**6. Executar os Testes:**
+Para validar a funcionalidade e rodar a suíte de testes, utilize o comando:
+
 ```bash
 npm test
 ```
 
-Para saber mais consulte a [Documentação do Jest](https://jest-archive-august-2023.netlify.app/pt-BR/docs/getting-started).
+Para gerar um relatório detalhado de cobertura de testes:
 
-### VALIDANDO A ENTREGA
-Para garantir que seu desafio vai ser considerado entregue, revise os seguintes pontos:
-
-#### GIT
-O repositório deve ser **público** e ter o **nome** e **branch** indicados na seção `ENTREGANDO O DESAFIO`.
-
-Para verificar que o repositório é público, deslogue-se do github e tente ver o código. Se conseguir, nós também conseguimos! Lembrando que vamos usar o link para o usuário informado durante o cadastro na Gupy. Veja [como alterar a visibilidade](https://docs.github.com/pt/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility#changing-a-repositorys-visibility).
-
-#### CÓDIGO
-A solução deve ser entregue em **javascript** e a **estrutura de pastas e arquivos** deve seguir o indicado na seção `O CÓDIGO`.
-
-O **export** da classe deve ser mantido da seguinte maneira para compatibilidade com o arquivo de testes:
-```js
-export { AbrigoAnimais as AbrigoAnimais };
+```bash
+npm test -- --coverage
 ```
 
-Se todos os passos forem seguidos corretamente, você terá um repositório como o da figura abaixo (lembrando que é permitido criar mais arquivos), onde `seuUsername` é o seu usuário do GitHub, que você informou no questionário da Gupy.
+## 7. Cobertura de Testes
 
-![Exemplo de repositório](estrutura-repositorio.png)
+A suíte de testes foi desenvolvida com o objetivo de validar todos os fluxos e regras de negócio, alcançando uma alta cobertura de código e garantindo a confiabilidade da solução.
+
+![Relatório de Cobertura de Testes](relatorio-cobertura.png)
