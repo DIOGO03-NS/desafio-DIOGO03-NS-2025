@@ -22,26 +22,26 @@ class AbrigoAnimais {
     return [];
   }
 
-  pessoaApta(brinquedos, animal){
+  pessoaApta(brinquedos, animal) {
     const brinquedosPessoa = this.separarElementos(brinquedos);
     const brinquedosAnimal = this.animais[animal].brinquedos;
 
     if (this.animais[animal].tipo === 'jabuti') {
       const temSkate = brinquedosPessoa.includes('SKATE');
       const temRato = brinquedosPessoa.includes('RATO');
-      
+
       return temSkate && temRato;
     }
 
-    let indiceAnimal = 0; 
-    
+    let indiceAnimal = 0;
+
     for (const brinquedoDaPessoa of brinquedosPessoa) {
-        if (brinquedoDaPessoa === brinquedosAnimal[indiceAnimal]) {
-            indiceAnimal++;
-        }
-        if (indiceAnimal === brinquedosAnimal.length) {
-            return true;
-        }
+      if (brinquedoDaPessoa === brinquedosAnimal[indiceAnimal]) {
+        indiceAnimal++;
+      }
+      if (indiceAnimal === brinquedosAnimal.length) {
+        return true;
+      }
     }
     return false;
   }
@@ -59,12 +59,14 @@ class AbrigoAnimais {
 
     let pessoa1 = {
       brinquedos: brinquedosP1,
-      quantidadeAdotados: 0
+      quantidadeAdotados: 0,
+      adotouGato: false
     };
-    
+
     let pessoa2 = {
       brinquedos: brinquedosP2,
-      quantidadeAdotados: 0
+      quantidadeAdotados: 0,
+      adotouGato: false
     };
 
     if (this.temDuplicado(ordemAnimaisArray)) {
@@ -80,25 +82,38 @@ class AbrigoAnimais {
         return { erro: 'Animal inválido' };
       }
 
-      if (!this.pessoaApta(pessoa1.brinquedos, nomeAnimal) || pessoa1.quantidadeAdotados == 3){
-        if (!this.pessoaApta(pessoa2.brinquedos, nomeAnimal) || pessoa2.quantidadeAdotados == 3){
+      const animalAtual = this.animais[nomeAnimal];
+
+      const p1PodeAdotar = this.pessoaApta(pessoa1.brinquedos, nomeAnimal) &&
+        pessoa1.quantidadeAdotados < 3 &&
+        !(animalAtual.tipo === 'gato' && pessoa1.adotouGato);
+
+      const p2PodeAdotar = this.pessoaApta(pessoa2.brinquedos, nomeAnimal) &&
+        pessoa2.quantidadeAdotados < 3 &&
+        !(animalAtual.tipo === 'gato' && pessoa2.adotouGato);
+
+
+      if (!p1PodeAdotar) {
+        if (!p2PodeAdotar) {
           registroAnimais.push(`${nomeAnimal} - abrigo`);
-        } else {            
+        } else {
           if (nomeAnimal === 'Loco' && pessoa2.quantidadeAdotados == 0) {
             registroAnimais.push(`${nomeAnimal} - abrigo`);
             continue;
           }
           pessoa2.quantidadeAdotados += 1;
+          if (animalAtual.tipo === 'gato') pessoa2.adotouGato = true;
           registroAnimais.push(`${nomeAnimal} - pessoa 2`);
         }
-      } else if (this.pessoaApta(pessoa2.brinquedos, nomeAnimal) && pessoa2.quantidadeAdotados < 3){    
+      } else if (p2PodeAdotar) {
         registroAnimais.push(`${nomeAnimal} - abrigo`);
-      } else if (pessoa1.quantidadeAdotados < 3) {  
+      } else if (pessoa1.quantidadeAdotados < 3) {
         if (nomeAnimal === 'Loco' && pessoa1.quantidadeAdotados == 0) {
           registroAnimais.push(`${nomeAnimal} - abrigo`);
           continue;
         }
         pessoa1.quantidadeAdotados += 1;
+        if (animalAtual.tipo === 'gato') pessoa1.adotouGato = true;
         registroAnimais.push(`${nomeAnimal} - pessoa 1`);
       }
     }
