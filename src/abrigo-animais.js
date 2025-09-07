@@ -26,8 +26,6 @@ class AbrigoAnimais {
     const brinquedosPessoa = this.separarElementos(brinquedos);
     const brinquedosAnimal = this.animais[animal].brinquedos;
 
-    if (brinquedosAnimal.length !== brinquedosPessoa.length) return false;
-
     if (this.animais[animal].tipo === 'jabuti') {
       const temSkate = brinquedosPessoa.includes('SKATE');
       const temRato = brinquedosPessoa.includes('RATO');
@@ -35,10 +33,17 @@ class AbrigoAnimais {
       return temSkate && temRato;
     }
 
-    for (let i = 0; i < brinquedos.length; i++){
-      if(brinquedosAnimal[i] !== brinquedosPessoa[i]) return false;
+    let indiceAnimal = 0; 
+    
+    for (const brinquedoDaPessoa of brinquedosPessoa) {
+        if (brinquedoDaPessoa === brinquedosAnimal[indiceAnimal]) {
+            indiceAnimal++;
+        }
+        if (indiceAnimal === brinquedosAnimal.length) {
+            return true;
+        }
     }
-    return true;
+    return false;
   }
 
 
@@ -103,7 +108,7 @@ function main() {
 
   // 2. Define os dados de entrada para o teste
   const brinquedosPessoa1 = "RATO, BOLA"; // Apta para Rex e Zero
-  const brinquedosPessoa2 = "LASER, BOLA"; // Apta para Mimi
+  const brinquedosPessoa2 = "CAIXA, BOLA, LASER, BOLA"; // Apta para Mimi
   const ordemDeAnimais = ["Rex", "Mimi", "Fofo", "Zero", "Bola", "Pikachu"];
 
   console.log(`Pessoa 1 tem os brinquedos: [${brinquedosPessoa1}]`);
